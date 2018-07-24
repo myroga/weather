@@ -6,9 +6,9 @@ class Daglista extends Component {
   render() {
     return (
     <div>
-        <Dag dag="Idag" temperaturdatadagett={this.props.temparraydagett} />
-        <Dag dag="I morgon" />
-        <Dag dag="I övermorgon" />
+        <Dag dag="Idag" temperaturdatadag={this.props.temparraydagett} />
+        <Dag dag="I morgon" temperaturdatadag={this.props.temparraydagtva}/>
+        <Dag dag="I övermorgon" temperaturdatadag={this.props.temparraydagtre}/>
     </div>
     );
   }
