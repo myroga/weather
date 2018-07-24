@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import Bilder from "./Bilder"
 
-class Dag extends Component {
+class Bilder extends Component {
   render() {
     return (
     <div>
-        <Bilder />
+        <h3>Malmö</h3>
     </div>
     );
   }
 }
 
-export default Dag;
+export default Bilder;
