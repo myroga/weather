@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-class Bilder extends Component {
+class Diagram extends Component {
   render() {
     return (
     <div>
         <h3>
-            Malmö
+            Diagram
         </h3>
     </div>
     );
   }
 }
 
-export default Bilder;
+export default Diagram;
