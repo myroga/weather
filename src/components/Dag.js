@@ -7,9 +7,14 @@ class Dag extends Component {
   render() {
     return (
     <div>
+        <p>
+            {this.props.dag}
+        </p>
         <Bilder />
         <Text />
-        <Diagram />
+        <Diagram 
+            temperaturdata={this.props.temperaturdatadagett}
+            />
     </div>
     );
   }
