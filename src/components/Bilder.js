@@ -4,9 +4,7 @@ class Bilder extends Component {
   render() {
     return (
     <div>
-        <h3>
-            Malmö
-        </h3>
+        <img src={"image/" + this.props.wsymb + ".png"} />
     </div>
     );
   }

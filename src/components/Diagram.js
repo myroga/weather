@@ -6,17 +6,13 @@ class Diagram extends Component {
     return (
     <div>
         <Line
-	data={this.props.temperaturdata}
-/>
-        <p>
-            Diagram två, vind
-        <p>
-        </p>
-            Diagram tre, moln
-        <p>
-        </p>
-            Diagram fyra, regn
-        </p>
+	    data={this.props.temperaturdata}
+        />
+        <Line
+	    data={this.props.vinddata}
+	    //data={this.props.vindbydata}
+        />
+        
     </div>
     );
   }

@@ -7,14 +7,15 @@ class Dag extends Component {
   render() {
     return (
     <div>
+        <Bilder wsymb={this.props.wsymb}/>
         <p>
             {this.props.dag}
         </p>
-        <Bilder />
         <Text />
         <Diagram 
             temperaturdata={this.props.temperaturdatadag}
-            />
+            vinddata={this.props.vinddatadag}
+        />
     </div>
     );
   }
