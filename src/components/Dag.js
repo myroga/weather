@@ -15,6 +15,8 @@ class Dag extends Component {
         <Diagram 
             temperaturdata={this.props.temperaturdatadag}
             vinddata={this.props.vinddatadag}
+            nederborddata={this.props.nederborddatadag}
+            molndata={this.props.molndatadag}
         />
     </div>
     );

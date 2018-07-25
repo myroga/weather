@@ -4,15 +4,19 @@ import {Line} from "react-chartjs-2"
 class Diagram extends Component {
   render() {
     return (
-    <div>
-        <Line
-	    data={this.props.temperaturdata}
-        />
-        <Line
-	    data={this.props.vinddata}
-	    //data={this.props.vindbydata}
-        />
-        
+    <div >
+        <div className="diagram"> 
+            <Line data={this.props.temperaturdata} />
+        </div>
+        <div className="diagram">
+            <Line data={this.props.vinddata} />
+        </div>
+        <div className="diagram"> 
+            <Line data={this.props.nederborddata} />
+        </div>
+        <div className="diagram">
+            <Line data={this.props.molndata} />
+        </div>
     </div>
     );
   }
