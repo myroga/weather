@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import Daglista from "./components/Daglista"
+import Dag from "./components/Dag";
+import Navbar from "./components/Navbar";
+import {BrowserRouter, Route, Switch } from "react-router-dom";
+import Fourofour from "./components/Fourofour";
+
 
 class App extends Component {
 constructor(props){
@@ -234,7 +238,7 @@ componentDidMount(){
     const iovermorgon = new Date(idag.setDate(idag.getDate()+1));
     const iovermorgonString = iovermorgon.toLocaleString().slice(0, 10);
     json.timeSeries.map(timeSeriesItem =>{
-      const {validTime, parameters } = timeSeriesItem;
+      const {validTime} = timeSeriesItem;
       const tid = new Date(validTime);
       const tidString = `kl. ${tid.getHours().toString()}`;
       let temperature = timeSeriesItem.parameters.filter(element => {
@@ -313,28 +317,53 @@ componentDidMount(){
 
 render() {
   return (
+    <BrowserRouter>
     <div className="App">
-      <Daglista 
-      temparraydagett={this.state.tempDiaett}
-      temparraydagtva={this.state.tempDiatva}
-      temparraydagtre={this.state.tempDiatre}
-      vindarraydagett={this.state.VindDiaett}
-      vindarraydagtva={this.state.VindDiatva}
-      vindarraydagtre={this.state.VindDiatre}
-      vindbyarraydagett={this.state.VindbyDiaett}
-      vindbyarraydagtva={this.state.VindbyDiatva}
-      vindbyarraydagtre={this.state.VindbyDiatre}
-      nederbordarraydagett={this.state.nederbordDiaett}
-      nederbordarraydagtva={this.state.nederbordDiatva}
-      nederbordarraydagtre={this.state.nederbordDiatre}
-      molnarraydagett={this.state.molnDiaett}
-      molnarraydagtva={this.state.molnDiatva}
-      molnarraydagtre={this.state.molnDiatre}
-      wsymbdagett="1"
-      wsymbdagtva="3"
-      wsymbdagtre="8"
+      <Navbar />
+      <Switch>
+      <Route
+        path="/" exact
+        render={props => (
+        <Dag
+          dag="Idag"
+          temperaturdatadag={this.state.tempDiaett}
+          vinddatadag={this.state.VindDiaett}
+          nederborddatadag={this.state.nederbordDiaett}
+          molndatadag={this.state.molnDiaett}
+          wsymb="1"
+        />
+      )}
       />
-    </div>
+      <Route
+        path="/imorgon"
+        render={props => (
+        <Dag
+          dag="Imorgon" 
+          temperaturdatadag={this.state.tempDiatva}
+          vinddatadag={this.state.VindDiatva}
+          nederborddatadag={this.state.nederbordDiatva}
+          molndatadag={this.state.molnDiatva}
+          wsymb="2"
+        />
+      )}
+      />
+      <Route
+        path="/overmorgon"
+        render={props => (
+        <Dag
+          dag="I övermorgon"
+          temperaturdatadag={this.state.tempDiatre}
+          vinddatadag={this.state.VindDiatre}
+          nederborddatadag={this.state.nederbordDiatre}
+          molndatadag={this.state.molnDiatre}
+          wsymb="3"
+        />
+      )}
+      />
+      <Route component={Fourofour} />
+      </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 }
