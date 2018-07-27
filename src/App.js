@@ -121,7 +121,7 @@ constructor(props){
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       { 
-      label: 'Temperatur',
+      label: 'Nederbord',
       backgroundColor: 'rgba(75,192,192,0.4)',
       borderColor: 'rgba(75,192,192,1)',
       BorderWidth: 1,
@@ -135,7 +135,7 @@ constructor(props){
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       { 
-      label: 'Temperatur',
+      label: 'Nederbord',
       backgroundColor: 'rgba(75,192,192,0.4)',
       borderColor: 'rgba(75,192,192,1)',
       BorderWidth: 1,
@@ -149,7 +149,7 @@ constructor(props){
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       { 
-      label: 'Temperatur',
+      label: 'Nederbord',
       backgroundColor: 'rgba(75,192,192,0.4)',
       borderColor: 'rgba(75,192,192,1)',
       BorderWidth: 1,
@@ -163,7 +163,7 @@ constructor(props){
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     { 
-    label: 'Temperatur',
+    label: 'Moln',
     backgroundColor: 'rgba(75,192,192,0.4)',
     borderColor: 'rgba(75,192,192,1)',
     BorderWidth: 1,
@@ -177,7 +177,7 @@ molnDiatva: {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     { 
-    label: 'Temperatur',
+    label: 'Moln',
     backgroundColor: 'rgba(75,192,192,0.4)',
     borderColor: 'rgba(75,192,192,1)',
     BorderWidth: 1,
@@ -191,7 +191,7 @@ molnDiatre: {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     { 
-    label: 'Temperatur',
+    label: 'Moln',
     backgroundColor: 'rgba(75,192,192,0.4)',
     borderColor: 'rgba(75,192,192,1)',
     BorderWidth: 1,
@@ -205,11 +205,23 @@ molnDiatre: {
 }
 componentDidMount(){
   const tempArrayIdag = [];
-  const tempArraymorgon = [];
+  const tempArrayImorgon = [];
   const tempArrayIovermorgon = [];
   const timeArrayIdag = [];
   const timeArrayImorgon = [];
   const timeArrayIovermorgon = [];
+  const windArrayIdag = [];
+  const windArrayImorgon = [];
+  const windArrayIovermorgon = [];
+  const gustArrayIdag = [];
+  const gustArrayImorgon = [];
+  const gustArrayIovermorgon = [];
+  const rArrayIdag = [];
+  const rArrayImorgon = [];
+  const rArrayIovermorgon = [];
+  const tcc_meanArrayIdag = [];
+  const tcc_meanArrayImorgon = [];
+  const tcc_meanArrayIovermorgon = [];
 
   const url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/13.191000/lat/55.704700/data.json";
   fetch (url)
@@ -223,33 +235,79 @@ componentDidMount(){
     const iovermorgonString = iovermorgon.toLocaleString().slice(0, 10);
     json.timeSeries.map(timeSeriesItem =>{
       const {validTime, parameters } = timeSeriesItem;
+      const tid = new Date(validTime);
+      const tidString = `kl. ${tid.getHours().toString()}`;
+      let temperature = timeSeriesItem.parameters.filter(element => {
+        return element.name === "t";
+      })[0].values[0];
+      let windspeed = timeSeriesItem.parameters.filter(element => {
+        return element.name === "ws";
+      })[0].values[0];
+      let gust = timeSeriesItem.parameters.filter(element => {
+        return element.name === "gust";
+      })[0].values[0];
+      let tcc_mean = timeSeriesItem.parameters.filter(element => {
+        return element.name === "tcc_mean";
+      })[0].values[0];
+      let r = timeSeriesItem.parameters.filter(element => {
+        return element.name === "r";
+      })[0].values[0];
       if(validTime.startsWith(idagString)){
-        let tid = validTime;
-        let temperature = timeSeriesItem.parameters.filter(element => {
-          return element.name === "t";
-        })[0].values[0];
-        //timeArrayIdag.puch(tid);
+        //timeArrayIdag.puch(tidString);
+        timeArrayIdag.push(tidString);
         tempArrayIdag.push(temperature);
-        timeArrayIdag.push(tid);
+        windArrayIdag.push(windspeed);
+        gustArrayIdag.push(gust);
+        tcc_meanArrayIdag.push(tcc_mean);
+        rArrayIdag.push(r);
       }else if (validTime.startsWith(imorgonString)){
-        let tid = validTime;
-        let temperature = timeSeriesItem.parameters.filter(element => {
-          return element.name === "t";
-        })[0].values[0];
-        timeArrayImorgon.push(tid);
-        tempArraymorgon.push(temperature);
+        timeArrayImorgon.push(tidString);
+        tempArrayImorgon.push(temperature);
+        windArrayImorgon.push(windspeed);
+        gustArrayImorgon.push(gust);
+        tcc_meanArrayImorgon.push(tcc_mean);
+        rArrayImorgon.push(r);
       }else if (validTime.startsWith(iovermorgonString)){
-        let tid = validTime;
-        let temperature = timeSeriesItem.parameters.filter(element => {
-          return element.name === "t";
-        })[0].values[0];
-        timeArrayIovermorgon.push(tid);
+        timeArrayIovermorgon.push(tidString);
         tempArrayIovermorgon.push(temperature);
+        windArrayIovermorgon.push(windspeed);
+        gustArrayIovermorgon.push(gust);
+        tcc_meanArrayIovermorgon.push(tcc_mean);
+        rArrayIovermorgon.push(r);
       }
     });
-    //console.log(timeArrayIdag);
-    //console.log(timeArrayImorgon);
-    //console.log(timeArrayIovermorgon);
+    this.setState(prevState => {
+      prevState.tempDiaett.labels = timeArrayIdag;
+      prevState.tempDiaett.datasets[0].data = tempArrayIdag;
+      prevState.tempDiatva.labels = timeArrayImorgon;
+      prevState.tempDiatva.datasets[0].data = tempArrayImorgon;
+      prevState.tempDiatre.labels = timeArrayIovermorgon;
+      prevState.tempDiatre.datasets[0].data = tempArrayIovermorgon;
+
+      prevState.VindDiaett.labels = timeArrayIdag;
+      prevState.VindDiaett.datasets[0].data = windArrayIdag;
+      prevState.VindDiaett.datasets[1].data = gustArrayIdag;
+      prevState.VindDiatva.labels = timeArrayImorgon;
+      prevState.VindDiatva.datasets[0].data = windArrayImorgon;
+      prevState.VindDiatva.datasets[1].data = gustArrayImorgon;
+      prevState.VindDiatre.labels = timeArrayIovermorgon;
+      prevState.VindDiatre.datasets[0].data = windArrayIovermorgon;
+      prevState.VindDiatre.datasets[1].data = gustArrayIovermorgon;
+
+      prevState.nederbordDiaett.labels = timeArrayIdag;
+      prevState.nederbordDiaett.datasets[0].data = rArrayIdag;
+      prevState.nederbordDiatva.labels = timeArrayImorgon;
+      prevState.nederbordDiatva.datasets[0].data = rArrayImorgon;
+      prevState.nederbordDiatre.labels = timeArrayIovermorgon;
+      prevState.nederbordDiatre.datasets[0].data = rArrayIovermorgon;
+
+      prevState.molnDiaett.labels = timeArrayIdag;
+      prevState.molnDiaett.datasets[0].data = tcc_meanArrayIdag;
+      prevState.molnDiatva.labels = timeArrayImorgon;
+      prevState.molnDiatva.datasets[0].data = tcc_meanArrayImorgon;
+      prevState.molnDiatre.labels = timeArrayIovermorgon;
+      prevState.molnDiatre.datasets[0].data = tcc_meanArrayIovermorgon;
+    })
   })
 }
 
